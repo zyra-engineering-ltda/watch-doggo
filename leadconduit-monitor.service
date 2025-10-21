@@ -1,0 +1,20 @@
+[Unit]
+Description=LeadConduit Status Monitor
+After=network.target
+
+[Service]
+Type=exec
+User=www-data
+Group=www-data
+WorkingDirectory=/opt/leadconduit-monitor
+Environment=PATH=/opt/leadconduit-monitor/venv/bin
+Environment=FLASK_ENV=production
+Environment=SECRET_KEY=your-secret-key-here
+Environment=CHECK_INTERVAL=300
+ExecStart=/opt/leadconduit-monitor/venv/bin/gunicorn --bind 0.0.0.0:8000 --workers 2 wsgi:app
+ExecReload=/bin/kill -s HUP $MAINPID
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target

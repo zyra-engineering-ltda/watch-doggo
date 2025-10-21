@@ -1,0 +1,310 @@
+/* Custom styles for Service Status Monitor Dashboard */
+
+/* Global Styles */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Navigation Styles */
+.navbar-brand {
+    font-weight: 600;
+}
+
+/* Service Card Styles */
+.service-card {
+    border: none;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.service-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.service-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: #6c757d;
+    transition: background-color 0.3s ease;
+}
+
+/* Status-specific card borders */
+.service-card.status-operational::before {
+    background: linear-gradient(90deg, #28a745, #20c997);
+}
+
+.service-card.status-degraded::before {
+    background: linear-gradient(90deg, #ffc107, #fd7e14);
+}
+
+.service-card.status-down::before {
+    background: linear-gradient(90deg, #dc3545, #e83e8c);
+}
+
+.service-card.status-unknown::before {
+    background: linear-gradient(90deg, #6c757d, #adb5bd);
+}
+
+/* Status Icon Styles */
+.status-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+.service-card:hover .status-icon {
+    transform: scale(1.1);
+}
+
+/* Service Details Styles */
+.service-details {
+    font-size: 0.875rem;
+}
+
+.service-name {
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+.service-status-text {
+    font-weight: 500;
+    text-transform: capitalize;
+}
+
+.service-message {
+    font-size: 0.8rem;
+    line-height: 1.4;
+    max-height: 2.8rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.service-error {
+    background: rgba(220, 53, 69, 0.1);
+    border-radius: 6px;
+    padding: 8px;
+    border-left: 3px solid #dc3545;
+}
+
+.service-error-text {
+    font-size: 0.75rem;
+    word-break: break-word;
+}
+
+/* Loading Animation */
+.spinner-border {
+    width: 3rem;
+    height: 3rem;
+}
+
+/* Refresh Button Animation */
+.spin {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Status Summary Cards */
+.card-body .row .col-md-3 {
+    padding: 1rem 0;
+}
+
+.card-body .row .col-md-3:not(:last-child) {
+    border-right: 1px solid #e9ecef;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .card-body .row .col-md-3 {
+        border-right: none;
+        border-bottom: 1px solid #e9ecef;
+        padding: 0.75rem 0;
+    }
+    
+    .card-body .row .col-md-3:last-child {
+        border-bottom: none;
+    }
+    
+    .service-card {
+        margin-bottom: 1rem;
+    }
+    
+    .status-icon {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .service-name {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .navbar-brand {
+        font-size: 1rem;
+    }
+    
+    #refresh-btn {
+        font-size: 0.8rem;
+        padding: 0.25rem 0.5rem;
+    }
+    
+    .status-icon {
+        width: 45px;
+        height: 45px;
+    }
+    
+    .status-icon i {
+        font-size: 1.5rem !important;
+    }
+}
+
+/* Tooltip Customization */
+.tooltip {
+    font-size: 0.8rem;
+}
+
+.tooltip-inner {
+    max-width: 250px;
+    text-align: left;
+}
+
+/* Alert Styles */
+.alert {
+    border-radius: 8px;
+    border: none;
+}
+
+/* Animation for status changes */
+.service-card .status-icon i {
+    transition: all 0.3s ease;
+}
+
+/* Pulse animation for loading states */
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+.loading-pulse {
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+/* Focus styles for accessibility */
+.service-card:focus-within {
+    outline: 2px solid #007bff;
+    outline-offset: 2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .service-card {
+        border: 2px solid #000;
+    }
+    
+    .service-card::before {
+        height: 6px;
+    }
+}
+
+/* Category Section Styles */
+.category-section {
+    margin-bottom: 2rem;
+}
+
+.category-title {
+    color: #2c3e50;
+    font-weight: 600;
+    font-size: 1.25rem;
+    border-bottom: 2px solid #e9ecef;
+    padding-bottom: 0.5rem;
+    flex-grow: 1;
+}
+
+.category-section .badge {
+    font-size: 0.75rem;
+    padding: 0.35em 0.65em;
+}
+
+.category-services {
+    padding-left: 1rem;
+    border-left: 3px solid #e9ecef;
+}
+
+/* Category hover effects */
+.category-section:hover .category-title {
+    border-bottom-color: #007bff;
+    transition: border-bottom-color 0.3s ease;
+}
+
+.category-section:hover .category-services {
+    border-left-color: #007bff;
+    transition: border-left-color 0.3s ease;
+}
+
+/* Service Link Styles */
+.service-link {
+    border-top: 1px solid #e9ecef;
+    padding-top: 0.75rem;
+}
+
+.service-url-link {
+    font-size: 0.8rem;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.service-url-link:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.service-url-link i {
+    font-size: 0.75rem;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    .service-card,
+    .status-icon,
+    .status-icon i {
+        transition: none;
+    }
+    
+    .spin {
+        animation: none;
+    }
+    
+    .category-title,
+    .category-services {
+        transition: none;
+    }
+    
+    .service-url-link {
+        transition: none;
+    }
+    
+    .service-url-link:hover {
+        transform: none;
+    }
+}

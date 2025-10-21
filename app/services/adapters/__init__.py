@@ -1,0 +1,1 @@
+"""Service adapters package for different status page formats."""

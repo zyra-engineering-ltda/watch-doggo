@@ -1,0 +1,128 @@
+{
+  "refresh_interval": 300,
+  "timeout": 30,
+  "services": [
+    {
+      "name": "github",
+      "url": "https://www.githubstatus.com/api/v2/status.json",
+      "adapter": "statuspage_io",
+      "display_name": "GitHub",
+      "category": "Development"
+    },
+    {
+      "name": "twilio",
+      "url": "https://status.twilio.com/api/v2/status.json",
+      "adapter": "statuspage_io",
+      "display_name": "Twilio",
+      "category": "Production"
+    },
+    {
+      "name": "docker",
+      "url": "https://status.docker.com/api/v2/status.json",
+      "adapter": "statuspage_io",
+      "display_name": "Docker",
+      "category": "Development"
+    },
+    {
+      "name": "google_maps",
+      "url": "https://status.cloud.google.com/incidents.json",
+      "adapter": "api_adapter",
+      "display_name": "Google Maps",
+      "category": "Production",
+      "status_path": "incidents",
+      "status_mapping": {
+        "open": "down",
+        "closed": "operational"
+      }
+    },
+    {
+      "name": "google_apis",
+      "url": "https://status.cloud.google.com/incidents.json",
+      "adapter": "api_adapter",
+      "display_name": "Google APIs",
+      "category": "Production",
+      "status_path": "incidents",
+      "status_mapping": {
+        "open": "down",
+        "closed": "operational"
+      }
+    },
+    {
+      "name": "office365",
+      "url": "https://status.cloud.microsoft/",
+      "adapter": "ping",
+      "display_name": "Office 365",
+      "category": "Power BI"
+    },
+    {
+      "name": "powerbi",
+      "url": "https://status.cloud.microsoft/",
+      "adapter": "ping",
+      "display_name": "Power BI",
+      "category": "Power BI"
+    },
+    {
+      "name": "google_dns",
+      "url": "https://dns.google",
+      "adapter": "ping",
+      "display_name": "Google DNS",
+      "category": "All"
+    },
+    {
+      "name": "aws_us_east_1",
+      "url": "https://health.aws.amazon.com/health/status",
+      "adapter": "aws_hybrid",
+      "display_name": "AWS US East 1",
+      "category": "All",
+      "region": "us-east-1",
+      "rss_url": "https://status.aws.amazon.com/rss/multipleservices-us-east-1.rss",
+      "services": []
+    },
+    {
+      "name": "aws_us_west_2", 
+      "url": "https://health.aws.amazon.com/health/status",
+      "adapter": "aws_hybrid",
+      "display_name": "AWS US West 2",
+      "category": "All",
+      "region": "us-west-2",
+      "rss_url": "https://status.aws.amazon.com/rss/multipleservices-us-west-2.rss",
+      "services": []
+    },
+    {
+      "name": "azure",
+      "url": "https://azure.status.microsoft/en-us/status",
+      "adapter": "ping",
+      "display_name": "Microsoft Azure",
+      "category": "Power BI"
+    },
+    {
+      "name": "sendgrid",
+      "url": "https://status.sendgrid.com/api/v2/status.json",
+      "adapter": "statuspage_io",
+      "display_name": "SendGrid",
+      "category": "Production"
+    },
+    {
+      "name": "openai",
+      "url": "https://status.openai.com/api/v2/status.json",
+      "adapter": "statuspage_io",
+      "display_name": "OpenAI",
+      "category": "Development"
+    },
+    {
+      "name": "power_bi_fabric",
+      "url": "https://support.fabric.microsoft.com/support/",
+      "adapter": "custom_html",
+      "display_name": "Microsoft Fabric / Power Platform",
+      "category": "Power BI",
+      "detailed_parsing": true,
+      "service_selector": "main",
+      "service_name_selector": null,
+      "service_status_selector": "body",
+      "success_text": "Good",
+      "warning_text": ["Information"],
+      "degraded_text": ["Degraded"],
+      "outage_text": ["Outage"]
+    }
+  ]
+}
