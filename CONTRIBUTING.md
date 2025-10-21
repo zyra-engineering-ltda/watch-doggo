@@ -97,7 +97,7 @@ All contributors are expected to follow our
 [Code of Conduct](./CODE_OF_CONDUCT.md).
 
 If you witness or experience harassment or unacceptable behavior, report it via:
-📧 **[opensource@zyra.engineering](mailto:opensource@zyra.engineering)**
+📧 **[cristiano at zyraeng [dot] com](mailto:cristiano at zyraeng [dot] com)**
 
 ---
 
