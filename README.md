@@ -39,7 +39,7 @@ The application comes pre-configured to monitor:
 
 1. **Clone or download the application**
    ```bash
-   git clone git@github.com:mcloide/watch-doggo.git
+   git clone git@github.com:zyra-engineering-ltda/watch-doggo.git
    cd watch-doggo
    ```
 
