@@ -1,4 +1,4 @@
-# Service Status Monitor
+# WatchDoggo - Service Status Monitor
 
 A Flask web application that monitors the status of various third-party services and displays their current operational status in a user-friendly dashboard.
 
@@ -17,26 +17,16 @@ A Flask web application that monitors the status of various third-party services
 
 The application comes pre-configured to monitor:
 
-- DocuSign
 - GitHub
 - Twilio
 - Docker
-- ShipEngine
-- Nintex (AssureSign)
-- SignRequest
-- ConvertAPI
 - Google Maps
 - Google APIs
 - Google DNS
-- DarkSky
 - Power BI
-- LeadConduit
-- DNG Intake Desk
 - Amazon Web Services (AWS)
 - Microsoft Azure
-- SendGrid
 - OpenAI
-- ViciDial
 
 ## Quick Start
 
@@ -49,8 +39,8 @@ The application comes pre-configured to monitor:
 
 1. **Clone or download the application**
    ```bash
-   git clone <repository-url>
-   cd service-status-monitor
+   git clone git@github.com:mcloide/watch-doggo.git
+   cd watch-doggo
    ```
 
 2. **Run the startup script**
