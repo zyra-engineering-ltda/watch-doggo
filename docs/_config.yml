@@ -2,5 +2,3 @@
 title: Watch-Doggo
 description: Open-source service monitor
 theme: cayman
-include:
-  - _includes/head.html
