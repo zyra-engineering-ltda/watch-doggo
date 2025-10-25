@@ -1,0 +1,24 @@
+name: publish-changelog-to-docs
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'CHANGELOG.md'
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Ensure docs folder exists
+        run: mkdir -p docs
+      - name: Copy CHANGELOG into docs
+        run: cp CHANGELOG.md docs/changelog.md
+      - name: Commit changes
+        uses: EndBug/add-and-commit@v9
+        with:
+          add: 'docs/changelog.md'
+          message: 'docs: update changelog on Pages'

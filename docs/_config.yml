@@ -1,0 +1,8 @@
+# _config.yml
+title: Watch-Doggo
+description: Open-source service monitor
+theme: minima
+minima:
+  skin: auto   # respects user’s OS light/dark preference
+include:
+  - _includes/head.html

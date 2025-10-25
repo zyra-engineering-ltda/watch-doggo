@@ -1,0 +1,16 @@
+/* Ensure links are high-contrast and underlined on hover/focus */
+a { text-decoration: underline; }
+a:hover, a:focus { text-decoration-thickness: 2px; }
+
+/* Keep visible focus outlines for keyboard users */
+:focus { outline: 2px solid currentColor; outline-offset: 2px; }
+
+/* Never rely on color alone: add icons or weight for callouts */
+.notice, .info, .warning {
+  border-left: 4px solid currentColor;
+  padding: .6rem .8rem;
+  font-weight: 500;
+}
+
+/* Larger base text for readability */
+html { font-size: 18px; line-height: 1.6; }

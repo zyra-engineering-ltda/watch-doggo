@@ -368,10 +368,11 @@ For issues and questions:
 
 ## Changelog
 
-### Version 0.0.1
-- Initial release
-- Support for StatusPage.io, HTML, and API adapters
-- Real-time dashboard with auto-refresh
-- Configuration management
-- Responsive design
-- REST API endpoints
+---
+title: Watch-Doggo
+---
+
+# Watch-Doggo
+
+- 👉 [Changelog](./changelog.html)
+
