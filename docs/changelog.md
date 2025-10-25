@@ -1,4 +1,4 @@
-# 🐶 WatchDoggo — Release History
+# WatchDoggo — Release History
 
 ### **v0.0.2** *(Latest)*
 
