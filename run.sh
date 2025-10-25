@@ -48,7 +48,7 @@ if [ ! -f "config/services.json" ]; then
 fi
 
 # Set environment variables if not already set
-export FLASK_APP=app.py
+export FLASK_APP=wsgi.py
 export FLASK_ENV=${FLASK_ENV:-production}
 export FLASK_HOST=${FLASK_HOST:-127.0.0.1}
 export FLASK_PORT=${FLASK_PORT:-5000}
@@ -63,4 +63,4 @@ echo -e "${YELLOW}Press Ctrl+C to stop the application${NC}"
 echo ""
 
 # Start the application
-python3 app.py
+python -m flask run --host=$FLASK_HOST --port=$FLASK_PORT

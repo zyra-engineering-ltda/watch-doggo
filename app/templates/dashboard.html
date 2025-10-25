@@ -1,39 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Service Status Monitor</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Bootstrap Icons -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
-    <!-- Custom CSS -->
-    <link href="{{ url_for('static', filename='css/dashboard.css') }}" rel="stylesheet">
-</head>
-<body class="bg-light">
-    <!-- Navigation Header -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid">
-            <span class="navbar-brand mb-0 h1">
-                    <img src="{{ url_for('static', filename='img/watchdoggo-logo-1.png') }}"
-                        alt="WatchDoggo" height="36" class="me-2">
-                    <span class="fw-bold">WatchDoggo</span>
-                <i class="bi bi-activity me-2"></i>Service Status Monitor
-            </span>
-            <div class="navbar-nav ms-auto">
-                <button id="refresh-btn" class="btn btn-outline-light btn-sm me-2">
-                    <i class="bi bi-arrow-clockwise me-1"></i>Refresh
-                </button>
-                <span id="last-update" class="navbar-text text-light">
-                    Last updated: <span id="last-update-time">Loading...</span>
-                </span>
-            </div>
-        </div>
-    </nav>
+{% extends "base.html" %}
 
-    <!-- Main Content -->
-    <div class="container-fluid py-4">
+{% block title %}WatchDoggo - Status Monitor{% endblock %}
+
+{% block navbar_content %}
+<div class="navbar-nav ms-auto">
+    <button id="refresh-btn" class="btn btn-outline-light btn-sm me-2">
+        <i class="bi bi-arrow-clockwise me-1"></i>Refresh
+    </button>
+    <span id="last-update" class="navbar-text text-light">
+        Last updated: <span id="last-update-time">Loading...</span>
+    </span>
+</div>
+{% endblock %}
+
+{% block content %}
         <!-- Status Summary -->
         <div class="row mb-4">
             <div class="col-12">
@@ -146,11 +126,9 @@
         </div>
     </template>
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <!-- Custom JS -->
-    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
-</body>
-</html>
+{% endblock %}
+
+{% block extra_js %}
+<!-- Custom JS -->
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+{% endblock %}
