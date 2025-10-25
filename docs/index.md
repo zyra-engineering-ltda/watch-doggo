@@ -368,11 +368,5 @@ For issues and questions:
 
 ## Changelog
 
----
-title: Watch-Doggo
----
-
-# Watch-Doggo
-
 - 👉 [Changelog](./changelog.html)
 
