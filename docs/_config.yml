@@ -2,3 +2,6 @@
 title: Watch-Doggo
 description: Open-source service monitor
 theme: jekyll-theme-cayman
+# IMPORTANT for project sites
+baseurl: /watch-doggo          # <— repo name
+url: https://zyra-engineering-ltda.github.io  # <— your GitHub username.github.io
