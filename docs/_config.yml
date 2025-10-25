@@ -1,4 +1,4 @@
 # _config.yml
 title: Watch-Doggo
 description: Open-source service monitor
-theme: cayman
+theme: jekyll-theme-cayman
