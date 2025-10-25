@@ -1,5 +1,7 @@
 # WatchDoggo - Service Status Monitor
 
+[![CI](https://github.com/mcloide/watch-doggo/actions/workflows/ci.yml/badge.svg)](https://github.com/mcloide/watch-doggo/actions/workflows/ci.yml)
+
 A Flask web application that monitors the status of various third-party services and displays their current operational status in a user-friendly dashboard.
 
 ## Features
