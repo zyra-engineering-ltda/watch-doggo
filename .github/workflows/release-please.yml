@@ -1,4 +1,3 @@
-# .github/workflows/release-and-sync-changelog.yml
 name: release-and-sync-changelog
 
 on:
@@ -13,42 +12,31 @@ permissions:
 jobs:
   release:
     runs-on: ubuntu-latest
+    outputs:
+      release_created: ${{ steps.rp.outputs.release_created }}
+      sha: ${{ steps.rp.outputs.sha }}
     steps:
       - uses: actions/checkout@v4
 
-      # 1) Run Release Please (creates/updates release PR, OR cuts a release)
-      - id: release
-        uses: google-github-actions/release-please-action@v4
+      # Run Release Please (manifest mode)
+      - id: rp
+        uses: googleapis/release-please-action@v4
         with:
-          release-type: simple
-          package-name: watch-doggo
-          bump-minor-pre-major: true
-          changelog-types: |
-            [
-              {"type":"feat","section":"Features","hidden":false},
-              {"type":"fix","section":"Bug Fixes","hidden":false},
-              {"type":"perf","section":"Performance","hidden":false},
-              {"type":"refactor","section":"Refactors","hidden":true},
-              {"type":"docs","section":"Docs","hidden":true},
-              {"type":"chore","section":"Chores","hidden":true},
-              {"type":"test","section":"Tests","hidden":true}
-            ]
+          config-file: .github/release-please-config.json
+          manifest-file: .github/.release-please-manifest.json
 
-      # 2) Only when a release was actually created (merged & tagged)…
-      #    re-checkout the exact commit Release-Please released so we see the updated CHANGELOG.md
+      # Only proceed when a release was actually created (PR got merged)
       - name: Checkout released commit
-        if: steps.release.outputs.release_created == 'true'
+        if: steps.rp.outputs.release_created == 'true'
         uses: actions/checkout@v4
         with:
-          ref: ${{ steps.release.outputs.sha }}
+          ref: ${{ steps.rp.outputs.sha }}
 
-      # 3) Ensure /docs exists and mirror CHANGELOG into it
       - name: Mirror CHANGELOG into docs
-        if: steps.release.outputs.release_created == 'true'
+        if: steps.rp.outputs.release_created == 'true'
         run: |
           mkdir -p docs
           cp CHANGELOG.md docs/changelog_body.md
-          # Create a wrapper page with front-matter if it doesn't exist
           if [ ! -f docs/changelog.md ]; then
             cat > docs/changelog.md <<'EOF'
             ---
@@ -60,9 +48,8 @@ jobs:
             EOF
           fi
 
-      # 4) Commit and push the mirrored file to main (so GitHub Pages picks it up)
       - name: Commit & push docs/changelog
-        if: steps.release.outputs.release_created == 'true'
+        if: steps.rp.outputs.release_created == 'true'
         uses: EndBug/add-and-commit@v9
         with:
           add: |
