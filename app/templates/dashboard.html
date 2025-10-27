@@ -129,6 +129,10 @@
 {% endblock %}
 
 {% block extra_js %}
+<script>
+  const TIMEZONE = "{{ timezone }}";
+</script>
+
 <!-- Custom JS -->
 <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
 {% endblock %}

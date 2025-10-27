@@ -1,11 +1,12 @@
 // JavaScript for Service Status Monitor Dashboard
 
 class ServiceStatusDashboard {
-    constructor() {
+    constructor(timezone = 'UTC') {
         this.refreshInterval = null;
         this.autoRefreshEnabled = true;
         this.refreshIntervalMs = 300000; // 5 minutes default
         this.isRefreshing = false;
+        this.timezone = timezone ? timezone : 'UTC';
 
         this.init();
     }
@@ -364,8 +365,14 @@ class ServiceStatusDashboard {
     }
 
     formatDateTime(isoString) {
+        const fmt = new Intl.DateTimeFormat("en-US", {
+            timeZone: this.timezone,
+            dateStyle: "medium",
+            timeStyle: "short",
+        });
+
         const date = new Date(isoString);
-        return date.toLocaleString();
+        return fmt.format(date);
     }
 
     showLoading() {
@@ -480,5 +487,7 @@ class ServiceStatusDashboard {
 
 // Initialize dashboard when document is ready
 $(document).ready(function () {
-    window.dashboard = new ServiceStatusDashboard();
+    let timezone = TIMEZONE ? TIMEZONE : 'UTC';
+
+    window.dashboard = new ServiceStatusDashboard(timezone);
 });

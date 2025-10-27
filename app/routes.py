@@ -3,6 +3,7 @@
 from flask import Blueprint, render_template, jsonify, current_app
 import logging
 from datetime import datetime
+import os
 
 main = Blueprint('main', __name__)
 logger = logging.getLogger(__name__)
@@ -11,7 +12,8 @@ logger = logging.getLogger(__name__)
 @main.route('/')
 def dashboard():
     """Main dashboard route."""
-    return render_template('dashboard.html')
+    timezone = os.getenv("TIMEZONE", "UTC")
+    return render_template('dashboard.html', timezone=timezone)
 
 
 @main.route('/api/status')
