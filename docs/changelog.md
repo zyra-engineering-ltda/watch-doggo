@@ -1,6 +1,15 @@
 # WatchDoggo — Release History
 
-### **v0.0.2** *(Latest)*
+### **v0.0.3** *(Latest)*
+**Date:** 2025-11-03
+**Type:** Enhancement Release
+
+Adding PWA support and service worker registration
+
+This will now allow the application to function as a Progressive Web App (PWA) with offline capabilities and push notifications.
+Whenever a service's status changes, a push notification will be sent to subscribed users.
+
+### **v0.0.2**
 
 **Date:** 2025-10-23
 **Type:** Maintenance Release
