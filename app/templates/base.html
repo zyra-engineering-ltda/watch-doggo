@@ -1,45 +1,145 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{% block title %}WatchDoggo{% endblock %}</title>
     <!-- Favicon -->
-    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='img/favicon_io/apple-touch-icon.png') }}">
-    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='img/favicon_io/favicon-32x32.png') }}">
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='img/favicon_io/favicon-16x16.png') }}">
-    <link rel="manifest" href="{{ url_for('static', filename='img/favicon_io/site.webmanifest') }}">
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="{{ url_for('static', filename='img/favicon_io/apple-touch-icon.png') }}"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="{{ url_for('static', filename='img/favicon_io/favicon-32x32.png') }}"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="{{ url_for('static', filename='img/favicon_io/favicon-16x16.png') }}"
+    />
+    <link
+      rel="manifest"
+      href="{{ url_for('static', filename='img/favicon_io/site.webmanifest') }}"
+    />
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
     <!-- Bootstrap Icons -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
     <!-- Custom CSS -->
-    <link href="{{ url_for('static', filename='css/dashboard.css') }}" rel="stylesheet">
+    <link
+      href="{{ url_for('static', filename='css/dashboard.css') }}"
+      rel="stylesheet"
+    />
+    <link
+      rel="manifest"
+      href="{{ url_for('static', filename='manifest.webmanifest') }}"
+    />
+    <meta name="theme-color" content="#0d6efd" />
+
     {% block extra_css %}{% endblock %}
-</head>
-<body class="bg-light">
+  </head>
+  <body class="bg-light">
     <!-- Navigation Header -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid">
-            <span class="navbar-brand mb-0 h1">
-                <img src="{{ url_for('static', filename='img/watchdoggo-logo-1.png') }}"
-                     alt="WatchDoggo" height="36" class="me-2">
-                <span class="fw-bold">WatchDoggo</span>
-                <i class="bi bi-activity me-2"></i>Service Status Monitor
-            </span>
-            {% block navbar_content %}{% endblock %}
-        </div>
+      <div class="container-fluid">
+        <span class="navbar-brand mb-0 h1">
+          <img
+            src="{{ url_for('static', filename='img/watchdoggo-logo-1.png') }}"
+            alt="WatchDoggo"
+            height="36"
+            class="me-2"
+          />
+          <span class="fw-bold">WatchDoggo</span>
+          <i class="bi bi-activity me-2"></i>Service Status Monitor
+        </span>
+        {% block navbar_content %}{% endblock %}
+      </div>
     </nav>
 
     <!-- Main Content -->
-    <div class="container-fluid py-4">
-        {% block content %}{% endblock %}
-    </div>
+    <div class="container-fluid py-4">{% block content %}{% endblock %}</div>
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <script>
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker
+          .register("{{ url_for('static', filename='service-worker.js') }}")
+          .then(() => console.log("SW registered"))
+          .catch(console.error);
+      }
+
+      async function requestNotificationPermission() {
+        if (!("Notification" in window)) return;
+        const perm = await Notification.requestPermission();
+        console.log("Notification permission:", perm);
+      }
+
+      requestNotificationPermission();
+
+      async function subscribeToPush() {
+        if (!("serviceWorker" in navigator)) return;
+        const reg = await navigator.serviceWorker.ready;
+
+        // get public key from backend
+        const resp = await fetch("/api/vapid-public-key");
+        const { key } = await resp.json();
+        const applicationServerKey = urlBase64ToUint8Array(key);
+
+        const sub = await reg.pushManager.subscribe({
+          userVisibleOnly: true,
+          applicationServerKey,
+        });
+
+        await fetch("/api/subscribe", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(sub),
+        });
+
+        console.log("Push subscribed");
+      }
+
+      // helper
+      function urlBase64ToUint8Array(base64String) {
+        const padding = "=".repeat((4 - (base64String.length % 4)) % 4);
+        const base64 = (base64String + padding)
+          .replace(/-/g, "+")
+          .replace(/_/g, "/");
+
+        const rawData = window.atob(base64);
+        const outputArray = new Uint8Array(rawData.length);
+
+        for (let i = 0; i < rawData.length; ++i) {
+          outputArray[i] = rawData.charCodeAt(i);
+        }
+        return outputArray;
+      }
+
+      subscribeToPush();
+
+        if ('serviceWorker' in navigator) {
+        navigator.serviceWorker
+            .register('/service-worker.js')
+            .then(() => console.log('SW registered'))
+            .catch(err => console.error('SW registration failed', err));
+        }
+    </script>
+
     {% block extra_js %}{% endblock %}
-</body>
+  </body>
 </html>

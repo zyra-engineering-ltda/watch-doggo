@@ -15,3 +15,5 @@ soupsieve==2.8
 typing_extensions==4.15.0
 urllib3==2.5.0
 Werkzeug==3.1.3
+pywebpush
+cryptography

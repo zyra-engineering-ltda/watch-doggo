@@ -1,5 +1,90 @@
 // JavaScript for Service Status Monitor Dashboard
 
+const STATUS_STORAGE_KEY = "watchdoggo:last_statuses:v1";
+
+// load previous statuses from localStorage
+function loadPreviousStatuses() {
+    try {
+        const raw = localStorage.getItem(STATUS_STORAGE_KEY);
+        return raw ? JSON.parse(raw) : {};
+    } catch (e) {
+        console.warn("Could not parse previous statuses", e);
+        return {};
+    }
+}
+
+// save current statuses
+function saveCurrentStatuses(statusMap) {
+    localStorage.setItem(STATUS_STORAGE_KEY, JSON.stringify(statusMap));
+}
+
+// show a browser notification via service worker
+function sendLocalNotification(title, body) {
+  (async () => {
+    if (!("Notification" in window)) return;
+    if (Notification.permission !== "granted") return;
+
+    // this should now resolve, because install/activate can't fail
+    const reg = await navigator.serviceWorker.ready;
+    await reg.showNotification(title, {
+      body,
+      icon: "/static/icons/icon-192.png",
+      badge: "/static/icons/icon-192.png"
+    });
+  })();
+}
+
+
+function isBadStatus(status) {
+    return status === 'degraded' || status === 'down' || status === 'error';
+}
+
+// this takes the new services object from the API
+function handleStatusChanges(servicesObj) {
+    const prev = loadPreviousStatuses();
+    const current = {};
+
+    // your API returns an object (you do Object.values later), so we iterate keys
+    Object.values(servicesObj).forEach(service => {
+        const key = service.name || service.display_name;
+        const newStatus = (service.status || 'unknown').toLowerCase();
+        current[key] = newStatus;
+
+        const oldStatus = prev[key];
+
+        // don't spam on very first load
+        if (oldStatus && oldStatus !== newStatus) {
+            const serviceName = service.display_name || service.name || 'Service';
+
+            // went bad
+            if (!isBadStatus(oldStatus) && isBadStatus(newStatus)) {
+                sendLocalNotification(
+                    `${serviceName} is ${newStatus}`,
+                    `${serviceName} changed from ${oldStatus} to ${newStatus}.`
+                );
+            }
+            // recovered
+            else if (isBadStatus(oldStatus) && !isBadStatus(newStatus)) {
+                sendLocalNotification(
+                    `${serviceName} recovered`,
+                    `${serviceName} is back to ${newStatus}.`
+                );
+            }
+            // changed between bad states
+            else if (isBadStatus(oldStatus) && isBadStatus(newStatus)) {
+                sendLocalNotification(
+                    `${serviceName} status update`,
+                    `${serviceName} changed from ${oldStatus} to ${newStatus}.`
+                );
+            }
+        }
+    });
+
+    // save snapshot for next time
+    saveCurrentStatuses(current);
+}
+
+
 class ServiceStatusDashboard {
     constructor(timezone = 'UTC') {
         this.refreshInterval = null;
@@ -71,6 +156,8 @@ class ServiceStatusDashboard {
             });
 
             if (response.success) {
+                handleStatusChanges(response.services);
+
                 this.updateDashboard(response.services);
                 this.updateLastUpdateTime(response.timestamp);
                 this.hideError();
@@ -107,6 +194,8 @@ class ServiceStatusDashboard {
             });
 
             if (response.success) {
+                handleStatusChanges(response.services);
+
                 this.updateDashboard(response.services);
                 this.updateLastUpdateTime(response.timestamp);
                 this.hideError();

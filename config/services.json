@@ -1,5 +1,5 @@
 {
-  "refresh_interval": 300,
+  "refresh_interval": 600,
   "timeout": 30,
   "services": [
     {

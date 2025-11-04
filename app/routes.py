@@ -1,8 +1,9 @@
 """Flask routes for Service Status Monitor."""
 
-from flask import Blueprint, render_template, jsonify, current_app
+from flask import Blueprint, render_template, jsonify, current_app, request
 import logging
 from datetime import datetime
+from app.webpush import add_subscription
 import os
 
 main = Blueprint('main', __name__)
@@ -227,3 +228,26 @@ def health_check():
             'error': str(e),
             'timestamp': datetime.now().isoformat()
         }), 500
+    
+
+@main.route("/api/subscribe", methods=["POST"])
+def subscribe():
+    data = request.get_json()
+    if not data:
+        return jsonify({"error": "no data"}), 400
+
+    add_subscription(data)
+    return jsonify({"success": True})
+
+@main.route("/api/vapid-public-key")
+def vapid_public_key():
+    return jsonify({"key": os.environ.get("VAPID_PUBLIC_KEY", "")})
+
+from flask import send_from_directory
+
+from flask import send_from_directory
+
+@main.route('/service-worker.js')
+def service_worker():
+    return send_from_directory('static', 'service-worker.js', mimetype='application/javascript')
+
